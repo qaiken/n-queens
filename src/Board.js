@@ -61,10 +61,12 @@
       }, this);
     },
 
+    // Complexity - O(n^2)
     hasAnyRooksConflicts: function() {
       return this.hasAnyRowConflicts() || this.hasAnyColConflicts();
     },
 
+    // Complexity - O(n^2)
     hasAnyQueensConflicts: function() {
       return this.hasAnyRooksConflicts() || this.hasAnyMajorDiagonalConflicts() || this.hasAnyMinorDiagonalConflicts();
     },
@@ -121,8 +123,9 @@
     // this.n() -> board size
     hasRowConflictAt: function(rowIndex) {
       var row = this.get(rowIndex);
+      var length = row.length;
       var count = 0;
-      for(var colIndex = 0; colIndex < row.length; colIndex++) {
+      for(var colIndex = 0; colIndex < length; colIndex++) {
         count+= row[colIndex];
       }
       return count > 1; // fixme
