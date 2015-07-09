@@ -62,13 +62,9 @@ window.countNRooksSolutions = function(n) {
     return 1;
   }
 
-  var recurse = function(board,rowI) {
+  var recurse = function(rowI) {
     // If solution
     //   solutionCount++
-    if(board.hasAnyRooksConflicts()) {
-      return;
-    }
-
     if( rowI === n ) {
       solutionCount++;
       return;
@@ -77,13 +73,16 @@ window.countNRooksSolutions = function(n) {
     for(var colI = 0; colI < n; ++colI) {
       // Add piece at rowI, i (column)
         // Recurse board
-      board.setPiece(rowI, colI, 1);
-      recurse(board, rowI + 1);
-      board.setPiece(rowI, colI, 0);
+      board.setPiece(rowI,colI,1);
+
+      if(!board.hasAnyRooksConflicts()) {
+        recurse(rowI + 1);
+      }
+      board.setPiece(rowI,colI,0);
     }
   };
 
-  recurse(board, 0);
+  recurse(0);
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
   return solutionCount;
 };
@@ -154,9 +153,9 @@ window.countNQueensSolutions = function(n) {
     for(var colI = 0; colI < n; ++colI) {
       // Add piece at rowI, i (column)
         // Recurse board
-      board.setPiece(rowI,colI,1);
+      board.setPiece(rowI, colI, 1);
       recurse(board,rowI+1);
-      board.setPiece(rowI,colI,0);
+      board.setPiece(rowI, colI, 0);
     }
   };
 

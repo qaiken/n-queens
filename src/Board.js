@@ -123,11 +123,9 @@
       var row = this.get(rowIndex);
       var count = 0;
       for(var colIndex = 0; colIndex < row.length; colIndex++) {
-        if(row[colIndex] && ++count > 1) {
-          return true;
-        }
+        count+= row[colIndex];
       }
-      return false; // fixme
+      return count > 1; // fixme
     },
 
     // test if any rows on this board contain conflicts
@@ -135,7 +133,7 @@
       var n = this.n();
 
       for(var rowIndex = 0; rowIndex < n; rowIndex++) {
-        if(this.hasRowConflictAt(rowIndex)) {
+        if( this.hasRowConflictAt(rowIndex) ) {
           return true;
         }
       }
@@ -186,7 +184,7 @@
       var n = this.n();
 
       for( var rowIndex = 0; rowIndex < n; rowIndex++ ) {
-        if(this.get(rowIndex)[column] && ++counter > 1) {
+        if( this.getPiece(rowIndex,column) && ++counter > 1 ) {
           return true;
         }
         column++;
@@ -217,7 +215,7 @@
       var n = this.n();
 
       for( var rowIndex = 0; rowIndex < n; rowIndex++ ) {
-        if(this.get(rowIndex)[column] && ++counter > 1) {
+        if( this.getPiece(rowIndex,column) && ++counter > 1 ) {
           return true;
         }
         column--;
