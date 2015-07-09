@@ -1,6 +1,6 @@
 // This file is a Backbone Model Don't worry about what that means,
 // or the initialize method.  It's part of the Board Visualizer.
-// 
+//
 // Look over the other methods and write the helper functions futher
 // down in the file.
 
@@ -67,8 +67,8 @@
 
     hasAnyQueensConflicts: function() {
       return this.hasAnyRooksConflicts() || this.hasAnyMajorDiagonalConflicts() || this.hasAnyMinorDiagonalConflicts();
-    },  
-    
+    },
+
     //
     // The four method below are used by the visualizer.  You might check out how
     // togglePiece() works, but don't worry about the other method.
@@ -116,13 +116,30 @@
     // --------------------------------------------------------------
     //
     // test if a specific row on this board contains a conflict
+    // this.get(rowIndex) -> row array
+    // this.getPiece(row, col) -> 0 1 if piece exists
+    // this.n() -> board size
     hasRowConflictAt: function(rowIndex) {
+      var row = this.get(rowIndex);
+      var count = 0;
+      for(var colIndex = 0; colIndex < row.length; colIndex++) {
+        if(row[colIndex] && ++count > 1) {
+          return true;
+        }
+      }
       return false; // fixme
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var n = this.n();
+
+      for(var rowIndex = 0; rowIndex < n; rowIndex++) {
+        if(this.hasRowConflictAt(rowIndex)) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
@@ -130,13 +147,32 @@
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
+    // this.get(rowIndex) -> row array
+    // this.getPiece(row, col) -> 0 1 if piece exists
+    // this.n() -> board size
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var n = this.n();
+      var count = 0;
+
+      for(var rowIndex = 0; rowIndex < n; rowIndex++) {
+        if( this.get(rowIndex)[colIndex] && ++count > 1 ) {
+          return true;
+        }
+      }
+      return false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      var n = this.n();
+
+      for(var colIndex = 0; colIndex < n; colIndex++) {
+        if( this.hasColConflictAt(colIndex) ) {
+          return true;
+        }
+      }
+
+      return false;
     },
 
 
@@ -145,12 +181,29 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var column = majorDiagonalColumnIndexAtFirstRow;
+      var counter = 0;
+      var n = this.n();
+
+      for( var rowIndex = 0; rowIndex < n; rowIndex++ ) {
+        if(this.get(rowIndex)[column] && ++counter > 1) {
+          return true;
+        }
+        column++;
+      }
+
+      return false;
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
-      return false; // fixme
+      var n = this.n();
+      for( var columnIndex = -n + 1; columnIndex < n; columnIndex++ ) {
+        if( this.hasMajorDiagonalConflictAt(columnIndex) ) {
+          return true;
+        }
+      }
+      return false;
     },
 
 
@@ -159,11 +212,30 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      var column = minorDiagonalColumnIndexAtFirstRow;
+      var counter = 0;
+      var n = this.n();
+
+      for( var rowIndex = 0; rowIndex < n; rowIndex++ ) {
+        if(this.get(rowIndex)[column] && ++counter > 1) {
+          return true;
+        }
+        column--;
+      }
+
+      return false;
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
+      var n = this.n();
+
+      for( var columnIndex = 2*n - 2; columnIndex >= 0; columnIndex-- ) {
+        if( this.hasMinorDiagonalConflictAt(columnIndex) ) {
+          return true;
+        }
+      }
+
       return false; // fixme
     }
 
