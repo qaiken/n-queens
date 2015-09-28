@@ -153,11 +153,7 @@ window.countNQueensSolutions = function(n) {
     return 1;
   }
 
-  if( n % 2 !== 0 ) {
-    firstRowMaxColI = Math.ceil(n/2);
-  } else if ( n % 2 === 0 ) {
-    firstRowMaxColI = n / 2;
-  }
+  firstRowMaxColI = Math.ceil(n/2);
 
   var recurse = function(rowI, maxColI) {
     // If solution
